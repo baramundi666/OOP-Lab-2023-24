@@ -1,1 +1,4 @@
-# PO_2023_PON1300_KROL
+Mateusz Król
+Grupa nr 12 - 13:00
+brak
+https://gitexercises.fracz.com/committer/ab620a51865880ebaabb6999731cc76e69a80349
