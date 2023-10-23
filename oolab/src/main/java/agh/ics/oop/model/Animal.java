@@ -7,13 +7,14 @@ public class Animal {
     private static final Vector2d corner1 = new Vector2d(0, 0);
     private static final Vector2d corner2 = new Vector2d(4, 4);
 
-    public Animal(Vector2d position) {
-        this.orientation = MapDirection.NORTH;
-        this.position = position;
-    }
 
     public Animal() {
         this(new Vector2d(2,2));
+    }
+
+    public Animal(Vector2d position) {
+        this.orientation = MapDirection.NORTH;
+        this.position = position;
     }
 
     public String toString() {
