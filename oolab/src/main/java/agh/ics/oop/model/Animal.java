@@ -1,10 +1,11 @@
 package agh.ics.oop.model;
 
-import java.util.Map;
-
 public class Animal {
     private MapDirection orientation;
     private Vector2d position;
+
+    private static final Vector2d corner1 = new Vector2d(0, 0);
+    private static final Vector2d corner2 = new Vector2d(4, 4);
 
     public Animal(Vector2d position) {
         this.orientation = MapDirection.NORTH;
@@ -34,8 +35,6 @@ public class Animal {
 
     public void move(MoveDirection direction) {
         var new_position = new Vector2d(this.position.getx(), this.position.gety());
-        var corner1 = new Vector2d(0, 0);
-        var corner2 = new Vector2d(4, 4);
         switch(direction) {
             case RIGHT -> this.orientation = this.orientation.next();
             case LEFT -> this.orientation = this.orientation.previous();
