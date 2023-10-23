@@ -17,6 +17,7 @@ public class Animal {
         this.position = position;
     }
 
+    @Override
     public String toString() {
         return "position: " + position.toString() +
                 ", orientation: " + orientation.toString();

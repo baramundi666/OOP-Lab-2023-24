@@ -4,18 +4,18 @@ import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
-    List<MoveDirection> directions;
-    List<Vector2d> positions;
-    List<Animal> animals;
+    private List<MoveDirection> directions;
+    private List<Vector2d> positions;
+    private List<Animal> animals;
 
     Simulation (List<MoveDirection> directions, List<Vector2d> positions) {
         this.directions = directions;
         this.positions = positions;
-        this.animals = new ArrayList<>();
+        this.animals = new LinkedList<>();
         for (Vector2d position: positions) {
             this.animals.add(new Animal(position));
         }
