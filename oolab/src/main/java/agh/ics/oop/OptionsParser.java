@@ -5,6 +5,7 @@ import agh.ics.oop.model.MoveDirection;
 import java.util.Arrays;
 
 public class OptionsParser {
+
     public static MoveDirection[] parse(String[] args) {
         var result = new MoveDirection[args.length];
         int id=0;
@@ -12,22 +13,22 @@ public class OptionsParser {
             switch(arg) {
                 case "l" -> {
                     result[id] = MoveDirection.LEFT;
-                    id++;
                 }
                 case "r" -> {
                     result[id] = MoveDirection.RIGHT;
-                    id++;
                 }
                 case "f" -> {
                     result[id] = MoveDirection.FORWARD;
-                    id++;
                 }
                 case "b" -> {
                     result[id] = MoveDirection.BACKWARD;
-                    id++;
                 }
-                default -> System.out.println("Nieznana komenda");
+                default -> {
+                    System.out.println("Nieznana komenda");
+                    id--;
+                }
             }
+            id++;
         }
         result = Arrays.copyOfRange(result,0,id);
         return result;
