@@ -4,23 +4,23 @@ public class Animal {
     private MapDirection orientation;
     private Vector2d position;
 
-    private static final Vector2d corner1 = new Vector2d(0, 0);
-    private static final Vector2d corner2 = new Vector2d(4, 4);
+    private static final Vector2d LOWER_CORNER = new Vector2d(0, 0);
+    private static final Vector2d UPPER_CORNER = new Vector2d(4, 4);
 
-
-    public Animal() {
-        this(new Vector2d(2,2));
-    }
 
     public Animal(Vector2d position) {
         this.orientation = MapDirection.NORTH;
         this.position = position;
     }
 
+    public Animal() {
+        this(new Vector2d(2,2));
+    }
+
     @Override
     public String toString() {
-        return "position: " + position.toString() +
-                ", orientation: " + orientation.toString();
+        return "position: " + this.position.toString() +
+                ", orientation: " + this.orientation.toString();
     }
 
     public boolean isAt(Vector2d position) {
@@ -43,7 +43,7 @@ public class Animal {
             case FORWARD -> new_position = new_position.add(this.orientation.toUnitVector());
             case BACKWARD -> new_position = new_position.subtract(this.orientation.toUnitVector());
         }
-        if (new_position.follows(corner1) && new_position.precedes(corner2)) {
+        if (new_position.follows(LOWER_CORNER) && new_position.precedes(UPPER_CORNER)) {
             this.position=new_position;
         }
     }

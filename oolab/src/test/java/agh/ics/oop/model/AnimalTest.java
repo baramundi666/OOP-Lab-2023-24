@@ -18,9 +18,9 @@ public class AnimalTest {
         animal3.move(MoveDirection.FORWARD);
 
         //Then
-        assertEquals(MapDirection.NORTH, animal2.getOrientation());
+        assertEquals(MapDirection.NORTH, animal1.getOrientation());
         assertEquals(MapDirection.EAST, animal2.getOrientation());
-        assertEquals(MapDirection.NORTH, animal2.getOrientation());
+        assertEquals(MapDirection.NORTH, animal3.getOrientation());
     }
 
     @Test
