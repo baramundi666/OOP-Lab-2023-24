@@ -26,15 +26,15 @@ public class Simulation {
     }
 
     List<MoveDirection> getDirections() {
-        return this.directions;
+        return new LinkedList<>(this.directions);
     }
 
     List<Vector2d> getPositions() {
-        return this.positions;
+        return new LinkedList<>(this.positions);
     }
 
     List<Animal> getAnimals() {
-        return this.animals;
+        return new LinkedList<>(this.animals);
     }
 
     public void run() {
