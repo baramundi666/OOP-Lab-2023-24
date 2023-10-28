@@ -13,11 +13,11 @@ public class Vector2d {
         this.y = y;
     }
 
-    public int getx() {
+    public int getX() {
         return x;
     }
 
-    public int gety() {
+    public int getY() {
         return y;
     }
 
