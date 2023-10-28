@@ -26,7 +26,7 @@ public class SimulationTest {
 
         List<MoveDirection> directions = OptionsParser.parse(arguments);
         List<Vector2d> positions = List.of(new Vector2d(0,0), new Vector2d(4,4));
-        var simulation = new Simulation(directions, positions);
+        var simulation = new Simulation (directions, positions);
 
         //When
         simulation.run();
