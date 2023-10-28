@@ -4,34 +4,47 @@ import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
-    private List<MoveDirection> directions;
+    private final List<MoveDirection> directions;
+
     private List<Vector2d> positions;
-    private List<Animal> animals;
+    private final List<Animal> animals;
 
     Simulation (List<MoveDirection> directions, List<Vector2d> positions) {
         this.directions = directions;
-        this.positions = positions;
         this.animals = new LinkedList<>();
         for (Vector2d position: positions) {
             this.animals.add(new Animal(position));
         }
     }
 
-    public void run() {
-        int animals_size = this.animals.size();
-        for (int i=0; i<this.directions.size(); i++) {
-            int which_animal = i%animals_size;
-            Animal animal = this.animals.get(which_animal);
-            animal.move(directions.get(i));
-            System.out.println("Zwierzę " + which_animal + " : " +
-                    animal.getPosition().toString());
-        }
+    List<MoveDirection> getDirections() {
+        return this.directions;
     }
 
+    List<Vector2d> getPositions() {
+        return this.positions;
+    }
 
+    List<Animal> getAnimals() {
+        return this.animals;
+    }
 
+    public void run() {
+        Iterator<MoveDirection> directions_iterator = this.directions.iterator();
+        int animals_size = this.animals.size();
+        int i = 0;
+        while (directions_iterator.hasNext()) {
+            for (Animal animal : this.animals) {
+                animal.move(directions_iterator.next());
+                System.out.println("Zwierzę " + i%animals_size + " : " +
+                        animal.getPosition().toString());
+                i++;
+            }
+        }
+    }
 }
