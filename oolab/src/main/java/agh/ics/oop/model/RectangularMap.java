@@ -14,17 +14,19 @@ public class RectangularMap implements WorldMap {
     private final Vector2d LOWER_CORNER;
     private final Vector2d UPPER_CORNER;
 
+    private final MapVisualizer visualization;
+
 
     public RectangularMap(int width, int height) {
         this.width = width;
         this.height = height;
         LOWER_CORNER = new Vector2d(0, 0);
         UPPER_CORNER = new Vector2d(width, height);
+        visualization = new MapVisualizer(this);
     }
 
     public boolean canMoveTo(Vector2d position) {
-        return position.getX() >= 0 && position.getY() >= 0 &&
-                position.getX() <= this.width && position.getY() <= this.height;
+        return position.precedes(UPPER_CORNER) && position.follows(LOWER_CORNER);
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -32,19 +34,22 @@ public class RectangularMap implements WorldMap {
     }
 
     public boolean place(Animal animal) {
-        var origin = new Vector2d(0, 0);
-        if (this.isOccupied(origin) || !this.canMoveTo(origin)) return false;
-        this.animals.put(origin, animal);
+        var position = animal.getPosition();
+        if (this.isOccupied(position) || !this.canMoveTo(position)) return false;
+        this.animals.put(position, animal);
         return true;
     }
 
     public void move(Animal animal, MoveDirection direction) {
         if (this.animals.containsValue(animal)) {
             Vector2d position = animal.getPosition();
-            MoveValidator validator = new RectangularMap(this.width, this.height);
+            MoveValidator validator = this;
+
             animal.move(direction, validator);
-            this.animals.remove(position);
-            this.animals.put(animal.getPosition(), animal);
+            if(!animals.containsKey(animal.getPosition())) {
+                this.animals.remove(position);
+                this.animals.put(animal.getPosition(), animal);
+            }
         }
     }
 
@@ -54,8 +59,6 @@ public class RectangularMap implements WorldMap {
     }
 
     public String toString() {
-        WorldMap map = new RectangularMap(this.width, this.height);
-        var visualization = new MapVisualizer(map);
         return visualization.draw(LOWER_CORNER, UPPER_CORNER);
     }
 }

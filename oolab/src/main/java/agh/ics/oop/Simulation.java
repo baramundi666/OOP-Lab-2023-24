@@ -20,7 +20,7 @@ public class Simulation {
         this.animals = new LinkedList<>();
         for (Vector2d position: positions) {
             var animal = new Animal(position);
-            this.animals.add(animal);
+            animals.add(animal);
             this.map.place(animal);
         }
     }
@@ -38,12 +38,11 @@ public class Simulation {
     }
 
     public void run() {
-        Iterator<MoveDirection> directions_iterator = this.directions.iterator();
-        while (directions_iterator.hasNext()) {
-            for (Animal animal : this.animals) {
-                this.map.move(animal, directions_iterator.next());
-                System.out.println(this.map.toString());
-            }
+        Iterator<Animal> animals_iterator = animals.iterator();
+
+        for (MoveDirection direction : directions) {
+            
+
         }
     }
 }
