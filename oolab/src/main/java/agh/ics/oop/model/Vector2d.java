@@ -23,7 +23,7 @@ public class Vector2d {
 
     @Override
     public String toString() {
-        return "("+ this.x +", "+ this.y +")";
+        return "("+ x +", "+ y +")";
     }
 
     public boolean precedes(Vector2d other) {
@@ -51,7 +51,7 @@ public class Vector2d {
     }
 
     public Vector2d opposite() {
-        return new Vector2d(-this.x, -this.y);
+        return new Vector2d(-x, -y);
     }
 
     @Override
@@ -65,6 +65,6 @@ public class Vector2d {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(this.x, this.y);
+        return Objects.hash(x, y);
     }
 }

@@ -19,8 +19,8 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "position: " + this.position.toString() +
-                ", orientation: " + this.orientation.toString();
+        return "position: " + position.toString() +
+                ", orientation: " + orientation.toString();
     }
 
     public boolean isAt(Vector2d position) {
@@ -28,23 +28,23 @@ public class Animal {
     }
 
     public Vector2d getPosition() {
-        return this.position;
+        return position;
     }
 
     public MapDirection getOrientation() {
-        return this.orientation;
+        return orientation;
     }
 
     public void move(MoveDirection direction) {
-        var new_position = new Vector2d(this.position.getx(), this.position.gety());
+        var new_position = new Vector2d(position.getx(), position.gety());
         switch(direction) {
-            case RIGHT -> this.orientation = this.orientation.next();
-            case LEFT -> this.orientation = this.orientation.previous();
-            case FORWARD -> new_position = new_position.add(this.orientation.toUnitVector());
-            case BACKWARD -> new_position = new_position.subtract(this.orientation.toUnitVector());
+            case RIGHT -> orientation = orientation.next();
+            case LEFT -> orientation = orientation.previous();
+            case FORWARD -> new_position = new_position.add(orientation.toUnitVector());
+            case BACKWARD -> new_position = new_position.subtract(orientation.toUnitVector());
         }
         if (new_position.follows(LOWER_CORNER) && new_position.precedes(UPPER_CORNER)) {
-            this.position=new_position;
+            position=new_position;
         }
     }
 
