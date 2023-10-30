@@ -42,8 +42,7 @@ public class Simulation {
         Iterator<Animal> animals_iterator = animals.iterator();
         for (MoveDirection direction : directions) {
             if (!animals_iterator.hasNext()) animals_iterator = animals.iterator();
-            Animal animal = animals_iterator.next();
-            map.move(animal, direction);
+            map.move(animals_iterator.next(), direction);
             System.out.println(map.toString());
         }
     }
