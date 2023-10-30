@@ -41,7 +41,7 @@ public class Vector2dTest {
     @Test
     public void testPrecedes() {
         var other = new Vector2d(3, 2);
-        var vector = new Vector2d(other.getx()-1, other.gety()-2);
+        var vector = new Vector2d(other.getX()-1, other.getY()-2);
 
 
         assertTrue(vector.precedes(other));
@@ -51,7 +51,7 @@ public class Vector2dTest {
     @Test
     public void testFollows() {
         var other = new Vector2d(3, 2);
-        var vector = new Vector2d(other.getx()+1, other.gety());
+        var vector = new Vector2d(other.getX()+1, other.getY());
 
 
         assertTrue(vector.follows(other));
