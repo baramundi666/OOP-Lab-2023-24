@@ -19,7 +19,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return switch(this.orientation) {
+        return switch(orientation) {
             case NORTH -> "N";
             case SOUTH -> "S";
             case WEST -> "W";
@@ -32,23 +32,23 @@ public class Animal {
     }
 
     public Vector2d getPosition() {
-        return this.position;
+        return position;
     }
 
     public MapDirection getOrientation() {
-        return this.orientation;
+        return orientation;
     }
 
     public void move(MoveDirection direction, MoveValidator validator) {
-        var new_position = new Vector2d(this.position.getX(), this.position.getY());
+        var new_position = new Vector2d(position.getX(), position.getY());
         switch(direction) {
-            case RIGHT -> this.orientation = this.orientation.next();
-            case LEFT -> this.orientation = this.orientation.previous();
-            case FORWARD -> new_position = new_position.add(this.orientation.toUnitVector());
-            case BACKWARD -> new_position = new_position.subtract(this.orientation.toUnitVector());
+            case RIGHT -> orientation = orientation.next();
+            case LEFT -> orientation = orientation.previous();
+            case FORWARD -> new_position = new_position.add(orientation.toUnitVector());
+            case BACKWARD -> new_position = new_position.subtract(orientation.toUnitVector());
         }
         if (validator.canMoveTo(new_position)) {
-            this.position=new_position;
+            position=new_position;
         }
     }
 

@@ -26,38 +26,40 @@ public class RectangularMap implements WorldMap {
     }
 
     public boolean canMoveTo(Vector2d position) {
-        return position.precedes(UPPER_CORNER) && position.follows(LOWER_CORNER);
+        return !this.isOccupied(position) && position.precedes(UPPER_CORNER) &&
+                position.follows(LOWER_CORNER);
     }
 
     public boolean isOccupied(Vector2d position) {
-        return this.animals.containsKey(position);
+        return animals.containsKey(position);
     }
 
     public boolean place(Animal animal) {
         var position = animal.getPosition();
         if (this.isOccupied(position) || !this.canMoveTo(position)) return false;
-        this.animals.put(position, animal);
+        animals.put(position, animal);
         return true;
     }
 
     public void move(Animal animal, MoveDirection direction) {
-        if (this.animals.containsValue(animal)) {
+        if (animals.containsValue(animal)) {
             Vector2d position = animal.getPosition();
             MoveValidator validator = this;
-
             animal.move(direction, validator);
-            if(!animals.containsKey(animal.getPosition())) {
-                this.animals.remove(position);
-                this.animals.put(animal.getPosition(), animal);
+            Vector2d new_position = animal.getPosition();
+            if(!animals.containsKey(new_position)) {
+                animals.remove(position);
+                animals.put(new_position, animal);
             }
         }
     }
 
     public Animal objectAt(Vector2d position) {
-        if (!this.animals.containsKey(position)) return null;
-        return this.animals.get(position);
+        if (!animals.containsKey(position)) return null;
+        return animals.get(position);
     }
 
+    @Override
     public String toString() {
         return visualization.draw(LOWER_CORNER, UPPER_CORNER);
     }
