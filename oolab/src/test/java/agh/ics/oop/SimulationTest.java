@@ -1,10 +1,9 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 import org.junit.Test;
-
 
 import java.util.List;
 
@@ -26,7 +25,8 @@ public class SimulationTest {
 
         List<MoveDirection> directions = OptionsParser.parse(arguments);
         List<Vector2d> positions = List.of(new Vector2d(0,0), new Vector2d(4,4));
-        var simulation = new Simulation (directions, positions);
+        var map = new RectangularMap(9,9);
+        var simulation = new Simulation (directions, positions, map);
 
         //When
         simulation.run();
