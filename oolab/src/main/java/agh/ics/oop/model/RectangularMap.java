@@ -5,7 +5,7 @@ import agh.ics.oop.MapVisualizer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RectangularMap implements WorldMap {
+public class RectangularMap implements WorldMap<Animal, Vector2d> {
     private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     private final int width;
@@ -48,7 +48,7 @@ public class RectangularMap implements WorldMap {
     public void move(Animal animal, MoveDirection direction) {
         if (animals.containsValue(animal)) {
             Vector2d original_position = animal.getPosition();
-            MoveValidator validator = this;
+            MoveValidator<Animal, Vector2d> validator = this;
             animal.move(direction, validator);
             Vector2d new_position = animal.getPosition();
             if (!original_position.equals(new_position) && !animals.containsKey(new_position)) {
