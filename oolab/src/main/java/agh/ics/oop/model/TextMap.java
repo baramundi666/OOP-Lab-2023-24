@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class TextMap implements WorldMap<String, Integer>{
+public abstract class TextMap implements WorldMap<String, Integer>{ //to delete abstract
 
     private final Map<Integer, String> strings = new HashMap<>();
 
@@ -56,9 +56,9 @@ public class TextMap implements WorldMap<String, Integer>{
         return strings.containsKey(position);
     }
 
-    @Override
-    public String objectAt(Integer position) {
-        if (!strings.containsKey(position)) return null;
-        return strings.get(position);
-    }
+//    @Override // to uncomment
+//    public String objectAt(Integer position) {
+//        if (!strings.containsKey(position)) return null;
+//        return strings.get(position);
+//    }
 }
