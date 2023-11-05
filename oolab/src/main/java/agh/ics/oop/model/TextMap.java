@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public abstract class TextMap implements WorldMap<String, Integer>{ //to delete abstract
+public class TextMap {
 
     private final Map<Integer, String> strings = new HashMap<>();
 
@@ -14,13 +14,11 @@ public abstract class TextMap implements WorldMap<String, Integer>{ //to delete 
         return new HashMap<>(strings);
     }
 
-    @Override
     public boolean canMoveTo(Integer position) {
         if (Objects.isNull(position)) return false;
         return position>=0 && position<map_size;
     }
 
-    @Override
     public boolean place(String object) {
         if (Objects.isNull(object)) return false;
         strings.put(map_size, object);
@@ -28,7 +26,6 @@ public abstract class TextMap implements WorldMap<String, Integer>{ //to delete 
         return true;
     }
 
-    @Override
     public void move(String object, MoveDirection direction) {
         if (strings.containsValue(object)) {
             for(Integer position : strings.keySet()) {
@@ -51,14 +48,12 @@ public abstract class TextMap implements WorldMap<String, Integer>{ //to delete 
         }
     }
 
-    @Override
     public boolean isOccupied(Integer position) {
         return strings.containsKey(position);
     }
 
-//    @Override // to uncomment
-//    public String objectAt(Integer position) {
-//        if (!strings.containsKey(position)) return null;
-//        return strings.get(position);
-//    }
+    public String objectAt(Integer position) {
+        if (!strings.containsKey(position)) return null;
+        return strings.get(position);
+    }
 }

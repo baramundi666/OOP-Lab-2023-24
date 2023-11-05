@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.Map;
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
@@ -39,4 +41,6 @@ public interface WorldMap<T, P> extends MoveValidator<T, P> {
      * @return animal or null if the position is not occupied.
      */
     WorldElement objectAt(P position);
+
+    Map<Vector2d, WorldElement> getElements();
 }

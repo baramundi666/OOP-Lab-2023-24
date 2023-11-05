@@ -1,6 +1,49 @@
 package agh.ics.oop.model;
 
-public abstract class AbstractWorldMap {
+import agh.ics.oop.MapVisualizer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
+
+    protected final Map<Vector2d, Animal> animals = new HashMap<>();
+
+    protected final Map<Vector2d, Grass> grass = new HashMap<>();
+
+    protected Vector2d lower_left=null;
+    protected Vector2d upper_right=null;
+
+    protected final MapVisualizer visualization;
+
+
+    protected AbstractWorldMap() {
+        visualization = new MapVisualizer((WorldMap) this);
+    }
+
+    public Map<Vector2d, WorldElement> getElements() {
+        Map<Vector2d,WorldElement> map = new HashMap<>();
+        map.putAll(animals);
+        map.putAll(grass);
+        return map;
+    }
+
+    public Map<Vector2d, Animal> getAnimals() {
+        return new HashMap<>(animals);
+    }
+
+    public Map<Vector2d, Grass> getGrass() {
+        return new HashMap<>(grass);
+    }
+
+    public boolean canMoveTo(Vector2d position) {
+        return !animals.containsKey(position);
+    }
+
+    public boolean isOccupied(Vector2d position) {
+        return animals.containsKey(position);
+    }
+
     public boolean place(Animal animal) {
         var position = animal.getPosition();
         if (!this.canMoveTo(position)) return false;
@@ -11,7 +54,7 @@ public abstract class AbstractWorldMap {
     public void move(Animal animal, MoveDirection direction) {
         if (animals.containsValue(animal)) {
             Vector2d original_position = animal.getPosition();
-            MoveValidator<Animal, Vector2d> validator = this;
+            var validator = (MoveValidator<Animal, Vector2d>) this;
             animal.move(direction, validator);
             Vector2d new_position = animal.getPosition();
             if (!original_position.equals(new_position) && !animals.containsKey(new_position)) {
@@ -20,5 +63,15 @@ public abstract class AbstractWorldMap {
             }
         }
 
+    }
+
+    public WorldElement objectAt(Vector2d position) {
+        if (!animals.containsKey(position) && !grass.containsKey(position)) return null;
+        if(animals.containsKey(position)) return animals.get(position);
+        return grass.get(position);
+    }
+
+    public String toString() {
+        return visualization.draw(lower_left, upper_right);
     }
 }
