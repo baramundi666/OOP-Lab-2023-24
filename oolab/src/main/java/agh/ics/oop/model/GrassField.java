@@ -9,14 +9,11 @@ import java.util.Random;
 
 public class GrassField extends AbstractWorldMap {
 
-    private final int grassCount;
-
     private Vector2d lower_left;
     private Vector2d upper_right;
 
     public GrassField(int grassCount) {
         super();
-        this.grassCount = grassCount;
 
         int maxWidth = (int) Math.sqrt(grassCount*10);
         int maxHeight = (int) Math.sqrt(grassCount*10);

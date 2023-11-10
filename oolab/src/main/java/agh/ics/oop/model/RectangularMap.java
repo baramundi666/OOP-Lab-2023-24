@@ -7,18 +7,13 @@ import java.util.Map;
 
 public class RectangularMap extends AbstractWorldMap {
 
-    private final int width;
-    private final int height;
-
     private final Vector2d lower_left;
     private final Vector2d upper_right;
 
     public RectangularMap(int width, int height) {
         super();
-        this.width = width;
-        this.height = height;
-        lower_left = new Vector2d(0, 0);
-        upper_right = new Vector2d(width, height);
+        this.lower_left = new Vector2d(0, 0);
+        this.upper_right = new Vector2d(width, height);
     }
 
     @Override
