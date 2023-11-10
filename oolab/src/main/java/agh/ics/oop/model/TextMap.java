@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class TextMap {
+public class TextMap implements AnyMap<String,Integer> {
 
     private final Map<Integer, String> strings = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class TextMap {
     public void move(String object, MoveDirection direction) {
         if (strings.containsValue(object)) {
             for(Integer position : strings.keySet()) {
-                if (Objects.equals(strings.get(position), object)) {
+                if (object.equals(strings.get(position))) {
                     Integer new_position = position;
                     switch(direction) {
                         case FORWARD -> new_position+=1;
