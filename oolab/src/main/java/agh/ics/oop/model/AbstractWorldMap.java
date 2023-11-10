@@ -11,21 +11,18 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
 
     protected final Map<Vector2d, Grass> grass = new HashMap<>();
 
-    protected Vector2d lower_left=null;
-    protected Vector2d upper_right=null;
-
     protected final MapVisualizer visualization;
 
 
     protected AbstractWorldMap() {
-        visualization = new MapVisualizer((WorldMap) this);
+        visualization = new MapVisualizer(this);
     }
 
     public Map<Vector2d, WorldElement> getElements() {
-        Map<Vector2d,WorldElement> map = new HashMap<>();
-        map.putAll(animals);
-        map.putAll(grass);
-        return map;
+        Map<Vector2d,WorldElement> list = new HashMap<>();
+        list.putAll(animals);
+        list.putAll(grass);
+        return list;
     }
 
     public Map<Vector2d, Animal> getAnimals() {
@@ -40,13 +37,14 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
         return !animals.containsKey(position);
     }
 
+    @Override
     public boolean isOccupied(Vector2d position) {
-        return animals.containsKey(position);
+        return getElements().containsKey(position);
     }
 
     public boolean place(Animal animal) {
         var position = animal.getPosition();
-        if (!this.canMoveTo(position)) return false;
+        if (!canMoveTo(position)) return false;
         animals.put(position, animal);
         return true;
     }
@@ -67,11 +65,7 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
 
     public WorldElement objectAt(Vector2d position) {
         if (!animals.containsKey(position) && !grass.containsKey(position)) return null;
-        if(animals.containsKey(position)) return animals.get(position);
+        if (animals.containsKey(position)) return animals.get(position);
         return grass.get(position);
-    }
-
-    public String toString() {
-        return visualization.draw(lower_left, upper_right);
     }
 }

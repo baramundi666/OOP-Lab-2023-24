@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RectangularMap extends AbstractWorldMap {
-    private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     private final int width;
     private final int height;
+
+    private final Vector2d lower_left;
+    private final Vector2d upper_right;
 
     public RectangularMap(int width, int height) {
         super();
@@ -23,5 +25,10 @@ public class RectangularMap extends AbstractWorldMap {
     public boolean canMoveTo(Vector2d position) {
         return super.canMoveTo(position) && position.precedes(upper_right) &&
                 position.follows(lower_left);
+    }
+
+    @Override
+    public String toString() {
+        return visualization.draw(lower_left, upper_right);
     }
 }
