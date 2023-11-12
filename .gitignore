@@ -7,8 +7,8 @@
 oolab/.gitignore
 **/gradlew
 **/gradlew.bat
-**/settings.gradle.kts
-**/build.gradle.kts
+# **/settings.gradle.kts
+ # **/build.gradle.kts
 
 
 
