@@ -14,8 +14,9 @@ public class AnimalTest {
         var animal3 = new Animal();
 
         //When
-        animal2.move(MoveDirection.RIGHT);
-        animal3.move(MoveDirection.FORWARD);
+        var map = new RectangularMap(4, 4);
+        animal2.move(MoveDirection.RIGHT, map);
+        animal3.move(MoveDirection.FORWARD, map);
 
         //Then
         assertEquals(MapDirection.NORTH, animal1.getOrientation());
@@ -30,13 +31,14 @@ public class AnimalTest {
         var position = new Vector2d(1, 2);
 
         //When
-        animal.move(MoveDirection.BACKWARD);
-        animal.move(MoveDirection.FORWARD);
-        animal.move(MoveDirection.LEFT);
-        animal.move(MoveDirection.LEFT);
-        animal.move(MoveDirection.BACKWARD);
-        animal.move(MoveDirection.RIGHT);
-        animal.move(MoveDirection.BACKWARD);
+        var map = new RectangularMap(4, 4);
+        animal.move(MoveDirection.BACKWARD, map);
+        animal.move(MoveDirection.FORWARD, map);
+        animal.move(MoveDirection.LEFT, map);
+        animal.move(MoveDirection.LEFT, map);
+        animal.move(MoveDirection.BACKWARD, map);
+        animal.move(MoveDirection.RIGHT, map);
+        animal.move(MoveDirection.BACKWARD, map);
 
 
         //Then
@@ -50,9 +52,10 @@ public class AnimalTest {
         var expected_position = new Vector2d(-10,10);
 
         //When
-        for (int i=0; i<10; i++) animal.move(MoveDirection.FORWARD);
-        animal.move(MoveDirection.LEFT);
-        for (int i=0; i<10; i++) animal.move(MoveDirection.FORWARD);
+        var map = new RectangularMap(4, 4);
+        for (int i=0; i<10; i++) animal.move(MoveDirection.FORWARD, map);
+        animal.move(MoveDirection.LEFT, map);
+        for (int i=0; i<10; i++) animal.move(MoveDirection.FORWARD, map);
 
 
         //Then

@@ -3,21 +3,26 @@ package agh.ics.oop;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.WorldMap;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
+
+    private final WorldMap<Animal, Vector2d> map;
     private final List<MoveDirection> directions;
-    
     private final List<Animal> animals;
 
-    Simulation (List<MoveDirection> directions, List<Vector2d> positions) {
+    Simulation (List<MoveDirection> directions, List<Vector2d> positions, WorldMap<Animal, Vector2d> map) {
+        this.map = map;
         this.directions = directions;
         this.animals = new LinkedList<>();
         for (Vector2d position: positions) {
-            animals.add(new Animal(position));
+            var animal = new Animal(position);
+            animals.add(animal);
+            this.map.place(animal);
         }
     }
 
@@ -30,16 +35,11 @@ public class Simulation {
     }
 
     public void run() {
-        int animals_size = animals.size();
-        int i = 0;
         Iterator<Animal> animals_iterator = animals.iterator();
         for (MoveDirection direction : directions) {
             if (!animals_iterator.hasNext()) animals_iterator = animals.iterator();
-            Animal animal = animals_iterator.next();
-            animal.move(direction);
-            System.out.println("Zwierzę " + i%animals_size + " : " +
-                    animal.getPosition().toString());
-            i++;
+            map.move(animals_iterator.next(), direction);
+            System.out.println(map.toString());
         }
     }
 }

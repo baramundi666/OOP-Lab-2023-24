@@ -19,8 +19,13 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "position: " + position.toString() +
-                ", orientation: " + orientation.toString();
+        return switch(orientation) {
+            case NORTH -> "N";
+            case SOUTH -> "S";
+            case WEST -> "W";
+            case EAST -> "E";
+        };
+      
     }
 
     public boolean isAt(Vector2d position) {
@@ -35,15 +40,17 @@ public class Animal {
         return orientation;
     }
 
-    public void move(MoveDirection direction) {
-        var new_position = new Vector2d(position.getx(), position.gety());
+    public void move(MoveDirection direction, MoveValidator validator) {
+        var new_position = new Vector2d(position.getX(), position.getY());
+
         switch(direction) {
             case RIGHT -> orientation = orientation.next();
             case LEFT -> orientation = orientation.previous();
             case FORWARD -> new_position = new_position.add(orientation.toUnitVector());
             case BACKWARD -> new_position = new_position.subtract(orientation.toUnitVector());
         }
-        if (new_position.follows(LOWER_CORNER) && new_position.precedes(UPPER_CORNER)) {
+
+        if (validator.canMoveTo(new_position)) {
             position=new_position;
         }
     }
