@@ -5,7 +5,7 @@ import agh.ics.oop.MapVisualizer;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
+public abstract class AbstractWorldMap implements WorldMap<WorldElement, Vector2d>{
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
 
@@ -42,20 +42,21 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
         return getElements().containsKey(position);
     }
 
-    public boolean place(Animal animal) {
+    public boolean place(WorldElement object) {
+        var animal = (Animal) object;
         var position = animal.getPosition();
         if (!canMoveTo(position)) return false;
         animals.put(position, animal);
         return true;
     }
 
-    public void move(Animal animal, MoveDirection direction) {
+    public void move(WorldElement object, MoveDirection direction) {
+        var animal = (Animal) object;
         if (animals.containsValue(animal)) {
             Vector2d original_position = animal.getPosition();
-            var validator = (MoveValidator<Vector2d>) this;
-            animal.move(direction, validator);
+            animal.move(direction, this);
             Vector2d new_position = animal.getPosition();
-            if (!original_position.equals(new_position) && !animals.containsKey(new_position)) {
+            if (!original_position.equals(new_position)) {
                 animals.remove(original_position);
                 animals.put(new_position, animal);
             }

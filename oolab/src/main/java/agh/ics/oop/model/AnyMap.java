@@ -39,7 +39,7 @@ public interface AnyMap<T, P> extends MoveValidator<P> {
      * @param position The position of the animal.
      * @return animal or null if the position is not occupied.
      */
-    Object objectAt(P position);
+    T objectAt(P position);
 }
 
 
