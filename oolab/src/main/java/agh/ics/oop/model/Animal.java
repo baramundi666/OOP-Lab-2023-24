@@ -25,6 +25,7 @@ public class Animal implements WorldElement {
             case WEST -> "W";
             case EAST -> "E";
         };
+      
     }
 
     public boolean isAt(Vector2d position) {
@@ -41,12 +42,14 @@ public class Animal implements WorldElement {
 
     public void move(MoveDirection direction, MoveValidator<Vector2d> validator) {
         var new_position = new Vector2d(position.getX(), position.getY());
+
         switch(direction) {
             case RIGHT -> orientation = orientation.next();
             case LEFT -> orientation = orientation.previous();
             case FORWARD -> new_position = new_position.add(orientation.toUnitVector());
             case BACKWARD -> new_position = new_position.subtract(orientation.toUnitVector());
         }
+
         if (validator.canMoveTo(new_position)) {
             position=new_position;
         }
