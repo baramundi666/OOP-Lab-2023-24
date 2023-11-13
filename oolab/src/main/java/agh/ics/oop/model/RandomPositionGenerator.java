@@ -8,12 +8,13 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     private final int maxHeight;
     private final int grassCount;
 
-    private final List<Vector2d> possible_values = new LinkedList<>();
+    private final List<Vector2d> possible_values;
 
     public RandomPositionGenerator(int maxWidth, int maxHeight, int grassCount) {
         this.grassCount = grassCount;
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
+        this.possible_values = new LinkedList<>();
 
         for (int i=0; i<=maxHeight; i++) {
             for (int j=0; j<=maxWidth; j++) {
