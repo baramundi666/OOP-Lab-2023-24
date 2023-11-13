@@ -52,7 +52,7 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d>{
     public void move(Animal animal, MoveDirection direction) {
         if (animals.containsValue(animal)) {
             Vector2d original_position = animal.getPosition();
-            var validator = (MoveValidator<Animal, Vector2d>) this;
+            var validator = (MoveValidator<Vector2d>) this;
             animal.move(direction, validator);
             Vector2d new_position = animal.getPosition();
             if (!original_position.equals(new_position) && !animals.containsKey(new_position)) {

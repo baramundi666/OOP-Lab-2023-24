@@ -1,15 +1,13 @@
 package agh.ics.oop.model;
 
 
-import java.util.Map;
-
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
  *
  * @author apohllo, idzik
  */
-public interface AnyMap<T, P> extends MoveValidator<T, P> {
+public interface AnyMap<T, P> extends MoveValidator<P> {
 
     /**
      * Place a animal on the map.

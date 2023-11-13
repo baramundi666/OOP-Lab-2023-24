@@ -8,7 +8,7 @@ public class TextMap implements AnyMap<String,Integer> {
 
     private final Map<Integer, String> strings = new HashMap<>();
 
-    private int map_size = 0;
+    private int mapSize = 0;
 
     public Map<Integer, String> getStrings() {
         return new HashMap<>(strings);
@@ -16,13 +16,13 @@ public class TextMap implements AnyMap<String,Integer> {
 
     public boolean canMoveTo(Integer position) {
         if (Objects.isNull(position)) return false;
-        return position>=0 && position<map_size;
+        return position>=0 && position<mapSize;
     }
 
     public boolean place(String object) {
         if (Objects.isNull(object)) return false;
-        strings.put(map_size, object);
-        map_size++;
+        strings.put(mapSize, object);
+        mapSize++;
         return true;
     }
 
