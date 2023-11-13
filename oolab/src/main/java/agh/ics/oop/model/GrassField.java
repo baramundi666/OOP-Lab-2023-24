@@ -1,12 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.MapVisualizer;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-
 public class GrassField extends AbstractWorldMap {
 
     private final int grassCount;
@@ -58,20 +51,4 @@ public class GrassField extends AbstractWorldMap {
         return super.toString();
     }
 
-//    @Override
-//    public boolean equals(Object other) {
-//        if (this == other) return true;
-//        if (!(other instanceof GrassField))
-//            return false;
-//        GrassField that = (GrassField) other;
-//        for (Grass grass : this.grass.values()) {
-//            if (!that.grass.containsKey(grass.getPosition())) return false;
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public final int hashCode() {
-//        return Objects.hash(grass);
-//    }
 }
