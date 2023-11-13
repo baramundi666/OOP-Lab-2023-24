@@ -13,7 +13,6 @@ public class Simulation {
 
     private final WorldMap<Animal, Vector2d> map;
     private final List<MoveDirection> directions;
-
     private final List<Animal> animals;
 
     Simulation (List<MoveDirection> directions, List<Vector2d> positions, WorldMap<Animal, Vector2d> map) {
