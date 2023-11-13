@@ -20,8 +20,8 @@ public abstract class AbstractWorldMap implements WorldMap<WorldElement, Vector2
 
     public Map<Vector2d, WorldElement> getElements() {
         Map<Vector2d,WorldElement> list = new HashMap<>();
-        list.putAll(animals);
         list.putAll(grass);
+        list.putAll(animals);
         return list;
     }
 

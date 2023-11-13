@@ -1,6 +1,6 @@
     package agh.ics.oop.model;
 
-    public class RectangularMap extends AbstractWorldMap {
+public class RectangularMap extends AbstractWorldMap {
 
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;

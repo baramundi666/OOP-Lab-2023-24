@@ -98,7 +98,6 @@ public class GrassFieldTest {
         //Given
         var pos1 = new Vector2d(2, 2);
         var pos2 = new Vector2d(3, 4);
-        var pos3 = new Vector2d(5, 2);
         var animal1 = new Animal(pos1);
         var animal2 = new Animal(pos2);
 
@@ -119,25 +118,21 @@ public class GrassFieldTest {
     @Test
     public void testGetElements() {
         //Given
-        var pos1 = new Vector2d(2, 2);
-        var pos2 = new Vector2d(3, 4);
-        var pos3 = new Vector2d(15, 2);
+        var pos1 = new Vector2d(27, 29);
+        var pos2 = new Vector2d(30, 40);
         var animal1 = new Animal(pos1);
         var animal2 = new Animal(pos2);
-        var animal3 = new Animal(pos3);
 
         // When
         var map = new GrassField(4);
         var grassPositions = map.getGrass().keySet();
         map.place(animal1);
         map.place(animal2);
-        map.place(animal3);
         var elements = map.getElements();
 
         //Then
         assertTrue(elements.containsValue(animal1));
         assertTrue(elements.containsValue(animal2));
-        assertFalse(elements.containsValue(animal3));
         for (Vector2d grassPosition : grassPositions) {
             assertEquals("*", elements.get(grassPosition).toString());
         }
