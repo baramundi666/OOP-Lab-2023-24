@@ -42,12 +42,11 @@ public abstract class AbstractWorldMap implements WorldMap<WorldElement, Vector2
         return getElements().containsKey(position);
     }
 
-    public boolean place(WorldElement object) {
+    public void place(WorldElement object) throws PositionAlreadyOccupiedException {
         var animal = (Animal) object;
         var position = animal.getPosition();
-        if (!canMoveTo(position)) return false;
+        if (!canMoveTo(position)) throw new PositionAlreadyOccupiedException(position);
         animals.put(position, animal);
-        return true;
     }
 
     public void move(WorldElement object, MoveDirection direction) {

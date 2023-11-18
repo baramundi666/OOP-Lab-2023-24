@@ -16,10 +16,14 @@ public class Simulation {
         this.map = map;
         this.directions = directions;
         this.animals = new LinkedList<>();
-        for (Vector2d position: positions) {
-            var animal = new Animal(position);
-            animals.add(animal);
-            this.map.place(animal);
+        for (Vector2d position : positions) {
+            try {
+                var animal = new Animal(position);
+                animals.add(animal);
+                this.map.place(animal);
+            } catch (PositionAlreadyOccupiedException ignored) {
+                System.out.println("Animal skipped!");
+            }
         }
     }
 
