@@ -11,6 +11,7 @@ public class World {
             List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4),
                                                 new Vector2d(2,2));
             GrassField map = new GrassField(10);
+            map.registerObserver(new ConsoleMapDisplay());
             Simulation simulation = new Simulation(directions, positions, map);
             simulation.run();
         } catch (Exception e) {

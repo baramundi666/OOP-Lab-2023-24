@@ -13,13 +13,13 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return super.canMoveTo(position) && position.precedes(upperRight) &&
-                position.follows(lowerLeft);
+    public Boundary getCurrentBounds() {
+        return new Boundary(lowerLeft, upperRight);
     }
 
     @Override
-    public String toString() {
-        return visualization.draw(lowerLeft, upperRight);
+    public boolean canMoveTo(Vector2d position) {
+        return super.canMoveTo(position) && position.precedes(upperRight) &&
+                position.follows(lowerLeft);
     }
 }
