@@ -23,6 +23,7 @@ public class Simulation {
                 this.map.place(animal);
             } catch (PositionAlreadyOccupiedException ignored) {
                 System.out.println("Animal skipped!");
+                System.out.println();
             }
         }
     }

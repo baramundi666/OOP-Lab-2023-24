@@ -66,23 +66,28 @@ public abstract class AbstractWorldMap implements WorldMap{
     public void place(Animal animal) throws PositionAlreadyOccupiedException {
         var position = animal.getPosition();
         if (!canMoveTo(position)) throw new PositionAlreadyOccupiedException(position);
-        mapChanged("Placed " + animal + " at " + position);
         animals.put(position, animal);
+        mapChanged("Placed " + animal + " at " + position);
     }
 
     @Override
     public void move(Animal animal, MoveDirection direction) {
         if (animals.containsValue(animal)) {
-            Vector2d original_position = animal.getPosition();
+            Vector2d originalPosition = animal.getPosition();
+            MapDirection originalOrientation = animal.getOrientation();
             animal.move(direction, this);
-            Vector2d new_position = animal.getPosition();
-            mapChanged(animal + " moved from " + original_position + " to " + new_position);
-            if (!original_position.equals(new_position)) {
-                animals.remove(original_position);
-                animals.put(new_position, animal);
+            Vector2d newPosition = animal.getPosition();
+            MapDirection newOrientation = animal.getOrientation();
+            if (!originalPosition.equals(newPosition)) {
+                animals.remove(originalPosition);
+                animals.put(newPosition, animal);
+                mapChanged(animal + " moved from " + originalPosition + " to " + newPosition);
+            }
+            else if (!originalOrientation.equals(newOrientation)) {
+                mapChanged(animal + " changed its orientation from " + originalOrientation + " to " +
+                           newOrientation);
             }
         }
-
     }
 
     @Override

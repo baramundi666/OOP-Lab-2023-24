@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author apohllo, idzik
  */
-public interface WorldMap extends MoveValidator<Vector2d>{
+public interface WorldMap extends MoveValidator<Vector2d> {
 
     /**
      * Place a animal on the map.
