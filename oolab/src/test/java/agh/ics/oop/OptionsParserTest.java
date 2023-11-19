@@ -1,13 +1,12 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class OptionsParserTest {
@@ -15,14 +14,21 @@ public class OptionsParserTest {
 
     @Test
     public void testParse() {
-        String[] args = {"l", "r", "...Fiodor",
-                         "f", "kot?", "Male!.nczuk", "b", "b"};
+            //Given
+            String[] args1 = {"l", "r", "lr", "...Fiodor",
+                             "f", "kot?", "Male!.nczuk", "b", "b"};
 
+            String[] args2 = {"l", "r", "forward",
+                    "f", "b", "backward", "r", "left"};
 
-        List<MoveDirection> expected = List.of(MoveDirection.LEFT, MoveDirection.RIGHT,
-        MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.BACKWARD);
+            //When
+            List<MoveDirection> expected = List.of(MoveDirection.LEFT, MoveDirection.RIGHT,
+            MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.BACKWARD,
+                    MoveDirection.RIGHT, MoveDirection.LEFT);
 
-
-        assertEquals(expected, OptionsParser.parse(args));
+            //Then
+            assertEquals(expected, OptionsParser.parse(args2));
+            Exception thrown = assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(args1));
+            assertEquals("lr is not legal move specification", thrown.getMessage());
     }
 }

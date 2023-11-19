@@ -1,8 +1,8 @@
 package agh.ics.oop.model;
 
-
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -18,7 +18,10 @@ public class GrassFieldTest {
 
         // When
         var map = new GrassField(10);
-        map.place(animal);
+        try {
+            map.place(animal);
+        }
+        catch (PositionAlreadyOccupiedException ignored) {}
 
         //Then
         assertTrue(map.canMoveTo(pos1));
@@ -36,8 +39,11 @@ public class GrassFieldTest {
 
         // When
         var map = new GrassField(15);
-        map.place(animal1);
-        map.place(animal2);
+        try {
+            map.place(animal1);
+            map.place(animal2);
+        }
+        catch (PositionAlreadyOccupiedException ignored) {}
         var grassPositions = map.getGrass().keySet();
 
         //Then
@@ -61,9 +67,10 @@ public class GrassFieldTest {
         var map = new GrassField(9);
 
         //Then
-        assertTrue(map.place(animal1));
-        assertTrue(map.place(animal2));
-        assertFalse(map.place(animal3));
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertDoesNotThrow(() -> map.place(animal2));
+        Exception thrown = assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal3));
+        assertEquals("Position (2, 2) is already occupied", thrown.getMessage());
     }
 
     @Test
@@ -76,10 +83,14 @@ public class GrassFieldTest {
 
         // When
         var map = new GrassField(7);
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal3);
-        map.place(animal4);
+        try {
+            map.place(animal1);
+            map.place(animal2);
+            map.place(animal3);
+            map.place(animal4);
+        }
+        catch (PositionAlreadyOccupiedException ignored) {}
+
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.LEFT);
         map.move(animal3, MoveDirection.BACKWARD);
@@ -104,8 +115,11 @@ public class GrassFieldTest {
         // When
         var map = new GrassField(15);
         var grassPositions = map.getGrass().keySet();
-        map.place(animal1);
-        map.place(animal2);
+        try {
+            map.place(animal1);
+            map.place(animal2);
+        }
+        catch (PositionAlreadyOccupiedException ignored) {}
 
         //Then
         assertEquals(animal1, map.objectAt(pos1));
@@ -126,8 +140,11 @@ public class GrassFieldTest {
         // When
         var map = new GrassField(4);
         var grassPositions = map.getGrass().keySet();
-        map.place(animal1);
-        map.place(animal2);
+        try {
+            map.place(animal1);
+            map.place(animal2);
+        }
+        catch (PositionAlreadyOccupiedException ignored) {}
         var elements = map.getElements();
 
         //Then
