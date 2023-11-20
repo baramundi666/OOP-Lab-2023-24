@@ -2,21 +2,30 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class World {
     public static void main(String[] args) {
         try {
-            List<MoveDirection> directions = OptionsParser.parse(args);
-            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4),
-                                                new Vector2d(2,2));
-            GrassField map = new GrassField(10);
-            map.registerObserver(new ConsoleMapDisplay());
-            Simulation simulation = new Simulation(directions, positions, map);
-            simulation.run();
+            List<Simulation> simulationList= new LinkedList<>();
+            for (int i=0; i<100; i++) {
+                List<MoveDirection> directions = OptionsParser.parse(args);
+                List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4),
+                        new Vector2d(2, 2));
+                var map1 = new GrassField(10);
+                var map2 = new RectangularMap(10, 10);
+                map1.registerObserver(new ConsoleMapDisplay());
+                map2.registerObserver(new ConsoleMapDisplay());
+                var simulation1 = new Simulation(directions, positions, map1);
+                var simulation2 = new Simulation(directions, positions, map2);
+            }
+            var engine = new SimulationEngine(simulationList);
+            engine.runAsync();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        System.out.println("System zakończył działanie!");
     }
 
     public static void run(MoveDirection[] directions) {

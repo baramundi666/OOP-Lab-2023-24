@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable{
 
     private final WorldMap map;
     private final List<MoveDirection> directions;

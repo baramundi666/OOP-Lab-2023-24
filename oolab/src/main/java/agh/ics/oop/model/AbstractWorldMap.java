@@ -14,9 +14,17 @@ public abstract class AbstractWorldMap implements WorldMap{
 
     protected final Set<MapChangeListener> observers = new HashSet<>();
 
+    protected final UUID mapId;
+
 
     protected AbstractWorldMap() {
-        visualization = new MapVisualizer(this);
+        this.visualization = new MapVisualizer(this);
+        this.mapId = UUID.randomUUID();
+    }
+
+    @Override
+    public UUID getId() {
+        return mapId;
     }
 
     public void mapChanged(String message) {
