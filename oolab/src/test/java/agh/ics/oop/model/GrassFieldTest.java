@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GrassFieldTest {
 
     @Test
-    public void testCanMoveTo() {
+    public void testCanMoveTo() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(-1, 0);
         var pos2 = new Vector2d(5, 6);
@@ -18,10 +18,7 @@ public class GrassFieldTest {
 
         // When
         var map = new GrassField(10);
-        try {
-            map.place(animal);
-        }
-        catch (PositionAlreadyOccupiedException ignored) {}
+        map.place(animal);
 
         //Then
         assertTrue(map.canMoveTo(pos1));
@@ -30,7 +27,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testIsOccupied() {
+    public void testIsOccupied() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(-11, 50);
         var pos2 = new Vector2d(-1, 5);
@@ -39,11 +36,8 @@ public class GrassFieldTest {
 
         // When
         var map = new GrassField(15);
-        try {
-            map.place(animal1);
-            map.place(animal2);
-        }
-        catch (PositionAlreadyOccupiedException ignored) {}
+        map.place(animal1);
+        map.place(animal2);
         var grassPositions = map.getGrass().keySet();
 
         //Then
@@ -74,7 +68,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testMove() {
+    public void testMove() throws PositionAlreadyOccupiedException {
         //Given
         var animal1 = new Animal(new Vector2d(2, 2));
         var animal2 = new Animal(new Vector2d(0, 0));
@@ -83,13 +77,10 @@ public class GrassFieldTest {
 
         // When
         var map = new GrassField(7);
-        try {
-            map.place(animal1);
-            map.place(animal2);
-            map.place(animal3);
-            map.place(animal4);
-        }
-        catch (PositionAlreadyOccupiedException ignored) {}
+        map.place(animal1);
+        map.place(animal2);
+        map.place(animal3);
+        map.place(animal4);
 
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.LEFT);
@@ -105,7 +96,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testObjectAt() {
+    public void testObjectAt() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(2, 2);
         var pos2 = new Vector2d(3, 4);
@@ -115,11 +106,8 @@ public class GrassFieldTest {
         // When
         var map = new GrassField(15);
         var grassPositions = map.getGrass().keySet();
-        try {
-            map.place(animal1);
-            map.place(animal2);
-        }
-        catch (PositionAlreadyOccupiedException ignored) {}
+        map.place(animal1);
+        map.place(animal2);
 
         //Then
         assertEquals(animal1, map.objectAt(pos1));
@@ -130,7 +118,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testGetElements() {
+    public void testGetElements() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(27, 29);
         var pos2 = new Vector2d(30, 40);
@@ -140,11 +128,8 @@ public class GrassFieldTest {
         // When
         var map = new GrassField(4);
         var grassPositions = map.getGrass().keySet();
-        try {
-            map.place(animal1);
-            map.place(animal2);
-        }
-        catch (PositionAlreadyOccupiedException ignored) {}
+        map.place(animal1);
+        map.place(animal2);
         var elements = map.getElements();
 
         //Then
