@@ -1,13 +1,19 @@
 package agh.ics.oop;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 public class SimulationEngine implements Runnable {
 
     private final List<Simulation> simulationList;
+
+    private final List<Thread> threads = new LinkedList<>();
+
+    private ExecutorService executor = newFixedThreadPool(4);
 
     public SimulationEngine(List<Simulation> simulationList) {
         this.simulationList = simulationList;
@@ -29,23 +35,35 @@ public class SimulationEngine implements Runnable {
         }
     }
 
-    public void runAsync() {
+    public void runAsync() throws InterruptedException {
         for (Simulation simulation : simulationList) {
             Thread engineThread = new Thread(simulation);
+            threads.add(engineThread);
             engineThread.start();
         }
+        awaitSimulationEnd();
     }
 
-    public void awaitSimulationEnd(ExecutorService executor) throws InterruptedException {
-        executor.shutdown();
-        executor.awaitTermination(10, TimeUnit.SECONDS);
+    public void awaitSimulationEnd() throws InterruptedException {
+        if (!threads.isEmpty()) {
+            for (Thread thread : threads) {
+                thread.join();
+            }
+            threads.clear();
+        }
+        if (!executor.isShutdown()) {
+            executor.shutdown();
+            if(!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+            }
+        }
     }
 
     public void runAsyncInThreadPool() throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        executor = newFixedThreadPool(4);
         for (Simulation simulation : simulationList) {
             executor.submit(simulation);
         }
-        awaitSimulationEnd(executor);
+        awaitSimulationEnd();
     }
 }
