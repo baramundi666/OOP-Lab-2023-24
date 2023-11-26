@@ -3,6 +3,7 @@ package agh.ics.oop;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SimulationEngine implements Runnable {
 
@@ -15,6 +16,11 @@ public class SimulationEngine implements Runnable {
     @Override
     public void run() {
         System.out.println("Thread started.");
+        try {
+            runAsyncInThreadPool();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void runSync() {
@@ -30,20 +36,16 @@ public class SimulationEngine implements Runnable {
         }
     }
 
-    public void awaitSimulationEnd(Thread thread) {
-        try {
-            thread.wait();
-            notifyAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void awaitSimulationEnd(ExecutorService executor) throws InterruptedException {
+        executor.shutdown();
+        executor.awaitTermination(10, TimeUnit.SECONDS);
     }
 
-    public void runAsyncInThreadPool() {
+    public void runAsyncInThreadPool() throws InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         for (Simulation simulation : simulationList) {
             executor.submit(simulation);
         }
-        executor.shutdown();
+        awaitSimulationEnd(executor);
     }
 }
