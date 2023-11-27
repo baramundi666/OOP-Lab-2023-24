@@ -1,6 +1,9 @@
 package agh.ics.oop.model;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RectangularMap extends AbstractWorldMap {
 
     private final Vector2d lowerLeft;
@@ -13,6 +16,11 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
+    public Map<Vector2d, WorldElement> getElements() {
+        return new HashMap<>(animals);
+    }
+
+    @Override
     public Boundary getCurrentBounds() {
         return new Boundary(lowerLeft, upperRight);
     }
@@ -21,5 +29,11 @@ public class RectangularMap extends AbstractWorldMap {
     public boolean canMoveTo(Vector2d position) {
         return super.canMoveTo(position) && position.precedes(upperRight) &&
                 position.follows(lowerLeft);
+    }
+
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        if (!animals.containsKey(position)) return null;
+        return animals.get(position);
     }
 }

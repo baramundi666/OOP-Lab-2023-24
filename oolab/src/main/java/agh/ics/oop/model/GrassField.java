@@ -1,8 +1,12 @@
 package agh.ics.oop.model;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class GrassField extends AbstractWorldMap {
+
+    private final Map<Vector2d, Grass> grass = new HashMap<>();
 
     public GrassField(int grassCount) {
         super();
@@ -12,6 +16,25 @@ public class GrassField extends AbstractWorldMap {
         for(Vector2d grassPosition : randomPositionGenerator) {
             grass.put(grassPosition, new Grass(grassPosition));
         }
+    }
+
+    public Map<Vector2d, Grass> getGrass() {
+        return new HashMap<>(grass);
+    }
+
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        if (!animals.containsKey(position) && !grass.containsKey(position)) return null;
+        if (animals.containsKey(position)) return animals.get(position);
+        return grass.get(position);
+    }
+
+    @Override
+    public Map<Vector2d, WorldElement> getElements() {
+        Map<Vector2d,WorldElement> list = new HashMap<>();
+        list.putAll(grass);
+        list.putAll(animals);
+        return list;
     }
 
     @Override
