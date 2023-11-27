@@ -1,9 +1,8 @@
 package agh.ics.oop.model;
 
-import org.junit.Test;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.Assert.*;
 
 public class Vector2dTest {

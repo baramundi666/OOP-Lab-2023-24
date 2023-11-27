@@ -4,6 +4,8 @@
 # added by me
 **/.idea
 **/gradle
+**/.gradle
+**/build
 oolab/.gitignore
 **/gradlew
 **/gradlew.bat

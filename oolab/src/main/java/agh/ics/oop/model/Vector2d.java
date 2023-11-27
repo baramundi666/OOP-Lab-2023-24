@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import java.util.Objects;
+import java.util.Vector;
 
 public class Vector2d {
 
@@ -60,7 +61,7 @@ public class Vector2d {
         if (!(other instanceof Vector2d))
             return false;
         Vector2d that = (Vector2d) other;
-        return that.x == this.x && that.y == this.y;
+        return that.getX() == this.x && that.getY() == this.y;
     }
 
     @Override

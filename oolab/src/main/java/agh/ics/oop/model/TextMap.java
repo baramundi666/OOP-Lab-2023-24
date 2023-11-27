@@ -4,35 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class TextMap implements WorldMap<String, Integer>{
+public class TextMap implements AnyMap<String,Integer> {
 
     private final Map<Integer, String> strings = new HashMap<>();
 
-    private int map_size = 0;
+    private int mapSize = 0;
 
     public Map<Integer, String> getStrings() {
         return new HashMap<>(strings);
     }
 
-    @Override
     public boolean canMoveTo(Integer position) {
         if (Objects.isNull(position)) return false;
-        return position>=0 && position<map_size;
+        return position>=0 && position<mapSize;
     }
 
-    @Override
     public boolean place(String object) {
         if (Objects.isNull(object)) return false;
-        strings.put(map_size, object);
-        map_size++;
+        strings.put(mapSize, object);
+        mapSize++;
         return true;
     }
 
-    @Override
     public void move(String object, MoveDirection direction) {
         if (strings.containsValue(object)) {
             for(Integer position : strings.keySet()) {
-                if (Objects.equals(strings.get(position), object)) {
+                if (object.equals(strings.get(position))) {
                     Integer new_position = position;
                     switch(direction) {
                         case FORWARD -> new_position+=1;
@@ -51,12 +48,10 @@ public class TextMap implements WorldMap<String, Integer>{
         }
     }
 
-    @Override
     public boolean isOccupied(Integer position) {
         return strings.containsKey(position);
     }
 
-    @Override
     public String objectAt(Integer position) {
         if (!strings.containsKey(position)) return null;
         return strings.get(position);
