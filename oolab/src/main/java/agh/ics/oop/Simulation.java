@@ -27,8 +27,11 @@ public class Simulation implements Runnable{
                 var animal = new Animal(position);
                 animals.add(animal);
                 map.place(animal);
+                Thread.sleep(500);
             } catch (PositionAlreadyOccupiedException ignored) {
                 System.out.println("Animal skipped!\n");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
