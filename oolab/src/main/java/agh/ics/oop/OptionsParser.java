@@ -11,11 +11,11 @@ public class OptionsParser {
         List<MoveDirection> result = new LinkedList<>();
         for (String argument : args) {
             switch (argument) {
-                case "l" -> result.add(MoveDirection.LEFT);
-                case "r" -> result.add(MoveDirection.RIGHT);
-                case "f" -> result.add(MoveDirection.FORWARD);
-                case "b" -> result.add(MoveDirection.BACKWARD);
-                default -> System.out.println("illegal move specification");
+                case "l", "left" -> result.add(MoveDirection.LEFT);
+                case "r", "right" -> result.add(MoveDirection.RIGHT);
+                case "f", "forward" -> result.add(MoveDirection.FORWARD);
+                case "b", "backward" -> result.add(MoveDirection.BACKWARD);
+                default -> throw new IllegalArgumentException(argument + " is not legal move specification");
             }
         }
 

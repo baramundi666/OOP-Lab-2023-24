@@ -8,18 +8,22 @@ import java.util.List;
 
 public class Simulation {
 
-    private final WorldMap<WorldElement, Vector2d> map;
+    private final WorldMap map;
     private final List<MoveDirection> directions;
     private final List<Animal> animals;
 
-    public Simulation (List<MoveDirection> directions, List<Vector2d> positions, WorldMap<WorldElement, Vector2d> map) {
+    public Simulation (List<MoveDirection> directions, List<Vector2d> positions, WorldMap map) {
         this.map = map;
         this.directions = directions;
         this.animals = new LinkedList<>();
-        for (Vector2d position: positions) {
-            var animal = new Animal(position);
-            animals.add(animal);
-            this.map.place(animal);
+        for (Vector2d position : positions) {
+            try {
+                var animal = new Animal(position);
+                animals.add(animal);
+                this.map.place(animal);
+            } catch (PositionAlreadyOccupiedException ignored) {
+                System.out.println("Animal skipped!\n");
+            }
         }
     }
 
@@ -36,7 +40,6 @@ public class Simulation {
         for (MoveDirection direction : directions) {
             if (!animals_iterator.hasNext()) animals_iterator = animals.iterator();
             map.move(animals_iterator.next(), direction);
-            System.out.println(map.toString());
         }
     }
 }

@@ -1,15 +1,15 @@
 package agh.ics.oop.model;
 
-
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GrassFieldTest {
 
     @Test
-    public void testCanMoveTo() {
+    public void testCanMoveTo() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(-1, 0);
         var pos2 = new Vector2d(5, 6);
@@ -27,7 +27,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testIsOccupied() {
+    public void testIsOccupied() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(-11, 50);
         var pos2 = new Vector2d(-1, 5);
@@ -61,13 +61,14 @@ public class GrassFieldTest {
         var map = new GrassField(9);
 
         //Then
-        assertTrue(map.place(animal1));
-        assertTrue(map.place(animal2));
-        assertFalse(map.place(animal3));
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertDoesNotThrow(() -> map.place(animal2));
+        Exception thrown = assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal3));
+        assertEquals("Position (2, 2) is already occupied", thrown.getMessage());
     }
 
     @Test
-    public void testMove() {
+    public void testMove() throws PositionAlreadyOccupiedException {
         //Given
         var animal1 = new Animal(new Vector2d(2, 2));
         var animal2 = new Animal(new Vector2d(0, 0));
@@ -80,6 +81,7 @@ public class GrassFieldTest {
         map.place(animal2);
         map.place(animal3);
         map.place(animal4);
+
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.LEFT);
         map.move(animal3, MoveDirection.BACKWARD);
@@ -94,7 +96,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testObjectAt() {
+    public void testObjectAt() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(2, 2);
         var pos2 = new Vector2d(3, 4);
@@ -116,7 +118,7 @@ public class GrassFieldTest {
     }
 
     @Test
-    public void testGetElements() {
+    public void testGetElements() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(27, 29);
         var pos2 = new Vector2d(30, 40);

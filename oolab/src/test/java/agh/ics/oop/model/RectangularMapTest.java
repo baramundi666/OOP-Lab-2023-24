@@ -3,13 +3,14 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class RectangularMapTest {
 
     @Test
-    public void testCanMoveTo() {
+    public void testCanMoveTo() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(-1, 0);
         var pos2 = new Vector2d(5, 5);
@@ -30,13 +31,12 @@ public class RectangularMapTest {
     }
 
     @Test
-    public void testIsOccupied() {
+    public void testIsOccupied() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(1, 5);
         var pos2 = new Vector2d(-1, 5);
         var animal1 = new Animal(new Vector2d(2, 2));
         var animal2 = new Animal(new Vector2d(0, 0));
-
 
         // When
         var map = new RectangularMap(5, 5);
@@ -62,16 +62,18 @@ public class RectangularMapTest {
         var map = new RectangularMap(5, 5);
 
         //Then
-        assertTrue(map.place(animal1));
-        assertTrue(map.place(animal2));
-        assertFalse(map.place(animal3));
-        assertFalse(map.place(animal4));
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertDoesNotThrow(() -> map.place(animal2));
+        Exception thrown1 = assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal3));
+        assertEquals("Position (2, 2) is already occupied", thrown1.getMessage());
+        Exception thrown2 = assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal4));
+        assertEquals("Position (10, 2) is already occupied", thrown2.getMessage());
         assertTrue(map.getAnimals().containsValue(animal1));
         assertTrue(map.getAnimals().containsValue(animal1));
     }
 
     @Test
-    public void testMove() {
+    public void testMove() throws PositionAlreadyOccupiedException {
         //Given
         var animal1 = new Animal(new Vector2d(2, 2));
         var animal2 = new Animal(new Vector2d(0, 0));
@@ -84,6 +86,7 @@ public class RectangularMapTest {
         map.place(animal2);
         map.place(animal3);
         map.place(animal4);
+
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.LEFT);
         map.move(animal3, MoveDirection.BACKWARD);
@@ -98,7 +101,7 @@ public class RectangularMapTest {
     }
 
     @Test
-    public void testObjectAt() {
+    public void testObjectAt() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(2, 2);
         var pos2 = new Vector2d(3, 4);
@@ -118,25 +121,21 @@ public class RectangularMapTest {
     }
 
     @Test
-    public void testGetElements() {
+    public void testGetElements() throws PositionAlreadyOccupiedException {
         //Given
         var pos1 = new Vector2d(2, 2);
         var pos2 = new Vector2d(3, 4);
-        var pos3 = new Vector2d(15, 2);
         var animal1 = new Animal(pos1);
         var animal2 = new Animal(pos2);
-        var animal3 = new Animal(pos3);
 
         // When
         var map = new RectangularMap(5, 5);
         map.place(animal1);
         map.place(animal2);
-        map.place(animal3);
         var elements = map.getElements();
 
         //Then
         assertTrue(elements.containsValue(animal1));
         assertTrue(elements.containsValue(animal2));
-        assertFalse(elements.containsValue(animal3));
     }
 }
