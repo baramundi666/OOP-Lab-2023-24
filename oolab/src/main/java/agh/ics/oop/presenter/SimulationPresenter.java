@@ -28,10 +28,7 @@ public class SimulationPresenter implements MapChangeListener {
     public GridPane mapGrid;
 
     @FXML
-    private TextField textField;
-
-    @FXML
-    private Label Label;
+    private TextField arguments;
 
     @FXML
     private Label infoLabel;
@@ -44,46 +41,61 @@ public class SimulationPresenter implements MapChangeListener {
         this.map = map;
     }
 
-    public void drawMap() {
+    public void drawMap(WorldMap map) {
         clearGrid();
         var boundary = map.getCurrentBounds();
-        int rows = boundary.upperRight().getX()-boundary.lowerLeft().getX();
-        int columns = boundary.upperRight().getY()-boundary.lowerLeft().getY();
+        int lowerX = boundary.lowerLeft().getX();
+        int upperX = boundary.upperRight().getX();
+        int lowerY = boundary.lowerLeft().getY();
+        int upperY = boundary.upperRight().getY();
+        int rows = upperY-lowerY+1;
+        int columns = upperX-lowerX+1;
+        double width = (double) 300 /columns;
+        double height = (double) 300 /rows;
         var elements = map.getElements();
 
-        for (int i=0; i<rows; i++) {
-            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
-            for (int j=0; j<columns; j++) {
-                mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
-            }
+        mapGrid.getColumnConstraints().add(new ColumnConstraints(width));
+        mapGrid.getRowConstraints().add(new RowConstraints(height));
+        Label axis = new Label("y\\x");
+        mapGrid.add(axis,0,0);
+        GridPane.setHalignment(axis, HPos.CENTER);
+
+        for (int i=0;i<rows;i++){
+            mapGrid.getRowConstraints().add(new RowConstraints(height));
+            Label label = new Label(String.valueOf(i+lowerY));
+            mapGrid.add(label,0,i+1);
+            GridPane.setHalignment(label, HPos.CENTER);
         }
-        for (int i=0; i<rows; i++) {
-            for (int j=0; j<columns; j++) {
-                var current = new Vector2d(i, j);
-                var label = new Label(elements.get(boundary.lowerLeft().add(current)).toString());
-                mapGrid.add(label, j, i);
-            }
+        for (int i=0;i<columns;i++){
+            mapGrid.getColumnConstraints().add(new ColumnConstraints(width));
+            var label = new Label(String.valueOf(i+lowerX));
+            mapGrid.add(label,i+1,0);
+            GridPane.setHalignment(label, HPos.CENTER);
         }
 
-
-        GridPane.setHalignment(mapGrid, HPos.CENTER);
+        for(Vector2d position: elements.keySet()){
+            var element = map.objectAt(position);
+            var label = new Label(element.toString());
+            mapGrid.add(label,position.getX()-lowerX+1,position.getY()-lowerY+1);
+            GridPane.setHalignment(label, HPos.CENTER);
+        }
     }
 
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(() -> {
-            drawMap();
-            // ewentualny inny kod zmieniający kontrolki
+            drawMap(worldMap);
+            infoLabel.setText(message);
         });
     }
 
     @FXML
-    private void onSimulationStartClicked(ActionEvent event) {
+    private void onSimulationStartClicked() {
         List<Simulation> simulationList = new LinkedList<>();
-        List<MoveDirection> directions = OptionsParser.parse(textField.getText().split(" "));
+        List<MoveDirection> directions = OptionsParser.parse(arguments.getText().split(" "));
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4),
                 new Vector2d(2, 2));
-        var map1 = new RectangularMap(5,5);
+        var map1 = new GrassField(10);
         setWorldMap(map1);
         map1.registerObserver(this);
         var simulation1 = new Simulation(directions, positions, map1);

@@ -27,7 +27,7 @@ public class Simulation implements Runnable{
                 var animal = new Animal(position);
                 animals.add(animal);
                 map.place(animal);
-                Thread.sleep(500);
+                Thread.sleep(700);
             } catch (PositionAlreadyOccupiedException ignored) {
                 System.out.println("Animal skipped!\n");
             } catch (InterruptedException e) {
@@ -50,6 +50,12 @@ public class Simulation implements Runnable{
         for (MoveDirection direction : directions) {
             if (!animals_iterator.hasNext()) animals_iterator = animals.iterator();
             map.move(animals_iterator.next(), direction);
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }
