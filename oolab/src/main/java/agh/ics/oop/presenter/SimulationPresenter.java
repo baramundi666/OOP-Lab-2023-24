@@ -5,24 +5,18 @@ import agh.ics.oop.Simulation;
 import agh.ics.oop.SimulationEngine;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.shape.Rectangle;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SimulationPresenter implements MapChangeListener {
-
-    private static final int CELL_WIDTH=50;
-    private static final int CELL_HEIGHT=50;
 
     @FXML
     public GridPane mapGrid;
@@ -33,9 +27,8 @@ public class SimulationPresenter implements MapChangeListener {
     @FXML
     private Label infoLabel;
 
-    @FXML
-    private Button startButton;
     private WorldMap map;
+
 
     public void setWorldMap(WorldMap map) {
         this.map = map;
@@ -50,8 +43,8 @@ public class SimulationPresenter implements MapChangeListener {
         int upperY = boundary.upperRight().getY();
         int rows = upperY-lowerY+1;
         int columns = upperX-lowerX+1;
-        double width = (double) 300 /columns;
-        double height = (double) 300 /rows;
+        double width = (double) 300/columns;
+        double height = (double) 300/rows;
         var elements = map.getElements();
 
         mapGrid.getColumnConstraints().add(new ColumnConstraints(width));
@@ -93,6 +86,7 @@ public class SimulationPresenter implements MapChangeListener {
     private void onSimulationStartClicked() {
         List<Simulation> simulationList = new LinkedList<>();
         List<MoveDirection> directions = OptionsParser.parse(arguments.getText().split(" "));
+        System.out.println(directions);
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4),
                 new Vector2d(2, 2));
         var map1 = new GrassField(10);

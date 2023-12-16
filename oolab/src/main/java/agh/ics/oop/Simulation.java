@@ -22,14 +22,17 @@ public class Simulation implements Runnable{
     }
 
     private void placeAnimals() {
+        int animals_length=0;
         for (Vector2d position : positions) {
             try {
                 var animal = new Animal(position);
                 animals.add(animal);
+                animals_length++;
                 map.place(animal);
                 Thread.sleep(700);
             } catch (PositionAlreadyOccupiedException ignored) {
                 System.out.println("Animal skipped!\n");
+                animals.remove(animals_length-1);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

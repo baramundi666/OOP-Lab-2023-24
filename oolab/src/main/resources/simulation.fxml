@@ -19,9 +19,9 @@
 
     <top>
         <VBox>
-            <TextField fx:id="arguments" promptText="Wprowadź listę ruchów: " />
+            <TextField fx:id="arguments" text="Enter move sequence: " />
             <HBox>
-                <Label fx:id="Label" text="Opis ruchu:"/>
+                <Label fx:id="Label" text="Move description: "/>
                 <Label fx:id="infoLabel"/>
             </HBox>
 
