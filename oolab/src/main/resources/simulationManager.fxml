@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:controller="agh.ics.oop.presenter.SimulationManager" xmlns:fx="http://javafx.com/fxml" minHeight="550.0" minWidth="850.0">
+    <center>
+        <VBox alignment="CENTER">
+            <Label text="SIMULATION MANAGER" textAlignment="CENTER"/>
+            <Label textAlignment="CENTER"/>
+            <Button fx:id="start" text="Start" onAction="#onStart" textAlignment="CENTER"/>
+        </VBox>
+    </center>
+</BorderPane>

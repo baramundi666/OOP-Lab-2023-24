@@ -8,9 +8,7 @@ public abstract class AbstractWorldMap implements WorldMap{
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
 
-    protected final Map<Vector2d, Grass> grass = new HashMap<>();
-
-    protected final MapVisualizer visualization;
+    protected final MapVisualizer visualizer;
 
     protected final Set<MapChangeListener> observers = new HashSet<>();
 
@@ -18,7 +16,7 @@ public abstract class AbstractWorldMap implements WorldMap{
 
 
     protected AbstractWorldMap() {
-        this.visualization = new MapVisualizer(this);
+        this.visualizer = new MapVisualizer(this);
         this.mapId = UUID.randomUUID();
     }
 
@@ -46,18 +44,6 @@ public abstract class AbstractWorldMap implements WorldMap{
 
     public Map<Vector2d, Animal> getAnimals() {
         return new HashMap<>(animals);
-    }
-
-    public Map<Vector2d, Grass> getGrass() {
-        return new HashMap<>(grass);
-    }
-
-    @Override
-    public Map<Vector2d, WorldElement> getElements() {
-        Map<Vector2d,WorldElement> list = new HashMap<>();
-        list.putAll(grass);
-        list.putAll(animals);
-        return list;
     }
 
     @Override
@@ -99,14 +85,7 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        if (!animals.containsKey(position) && !grass.containsKey(position)) return null;
-        if (animals.containsKey(position)) return animals.get(position);
-        return grass.get(position);
-    }
-
-    @Override
     public String toString() {
-        return visualization.draw(getCurrentBounds().lowerLeft(),getCurrentBounds().upperRight());
+        return visualizer.draw(getCurrentBounds().lowerLeft(),getCurrentBounds().upperRight());
     }
 }

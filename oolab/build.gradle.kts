@@ -1,6 +1,9 @@
+import java.util.*
+
 plugins {
 	id("application")
     id("java")
+    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 group = "org.example"
@@ -8,6 +11,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+javafx {
+    version = "17"
+    modules = mutableListOf("javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web")
 }
 
 dependencies {
