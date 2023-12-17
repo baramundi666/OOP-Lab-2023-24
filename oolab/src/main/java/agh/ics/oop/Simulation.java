@@ -6,21 +6,27 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable{
 
     private final WorldMap map;
     private final List<MoveDirection> directions;
+
+    private final List<Vector2d> positions;
     private final List<Animal> animals;
 
     public Simulation (List<MoveDirection> directions, List<Vector2d> positions, WorldMap map) {
         this.map = map;
         this.directions = directions;
         this.animals = new LinkedList<>();
+        this.positions = positions;
+    }
+
+    private void placeAnimals() {
         for (Vector2d position : positions) {
             try {
                 var animal = new Animal(position);
                 animals.add(animal);
-                this.map.place(animal);
+                map.place(animal);
             } catch (PositionAlreadyOccupiedException ignored) {
                 System.out.println("Animal skipped!\n");
             }
@@ -36,6 +42,7 @@ public class Simulation {
     }
 
     public void run() {
+        placeAnimals();
         Iterator<Animal> animals_iterator = animals.iterator();
         for (MoveDirection direction : directions) {
             if (!animals_iterator.hasNext()) animals_iterator = animals.iterator();
