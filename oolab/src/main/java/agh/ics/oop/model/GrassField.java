@@ -2,7 +2,10 @@ package agh.ics.oop.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap {
 
@@ -31,10 +34,12 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Map<Vector2d, WorldElement> getElements() {
-        Map<Vector2d,WorldElement> list = new HashMap<>();
-        list.putAll(grass);
-        list.putAll(animals);
-        return list;
+        return Stream.concat(animals.entrySet().stream(), grass.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (animal, grass) -> animal
+                ));
     }
 
     @Override
