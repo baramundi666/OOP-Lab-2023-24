@@ -21,6 +21,17 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
+    public List<Animal> getOrderedAnimals() {
+        var animalList = new LinkedList<Animal>();
+        for (Vector2d position : animals.keySet()) {
+            animalList.add(animals.get(position));
+        }
+        Comparator<Animal> animalComparator = Comparator.comparing((animal) -> (double) animal.getPosition().getX()+(double) animal.getPosition().getY()/10);
+        Collections.sort(animalList, animalComparator);
+        return animalList;
+    }
+
+    @Override
     public UUID getId() {
         return mapId;
     }

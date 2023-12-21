@@ -3,11 +3,37 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class RectangularMapTest {
+
+    @Test
+    public void testGetOrderedAnimals() throws PositionAlreadyOccupiedException {
+        //Given
+        var position1 = new Vector2d(2, 3);
+        var position2 = new Vector2d(1, 3);
+        var position3 = new Vector2d(0, 3);
+        var position4 = new Vector2d(1, 2);
+        var animal1 = new Animal(position1);
+        var animal2 = new Animal(position2);
+        var animal3 = new Animal(position3);
+        var animal4 = new Animal(position4);
+        var expectedList = List.of(animal3, animal4, animal2, animal1);
+
+        //When
+        var map = new RectangularMap(10, 10);
+        map.place(animal1);
+        map.place(animal2);
+        map.place(animal3);
+        map.place(animal4);
+
+        //Then
+        assertEquals(expectedList, map.getOrderedAnimals());
+    }
 
     @Test
     public void testCanMoveTo() throws PositionAlreadyOccupiedException {

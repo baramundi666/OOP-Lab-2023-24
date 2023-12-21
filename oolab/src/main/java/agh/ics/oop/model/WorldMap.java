@@ -1,8 +1,7 @@
 package agh.ics.oop.model;
 
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The interface responsible for interacting with the map of the world.
@@ -11,6 +10,8 @@ import java.util.UUID;
  * @author apohllo, idzik
  */
 public interface WorldMap extends MoveValidator<Vector2d> {
+
+    List<Animal> getOrderedAnimals();
 
     UUID getId();
 
