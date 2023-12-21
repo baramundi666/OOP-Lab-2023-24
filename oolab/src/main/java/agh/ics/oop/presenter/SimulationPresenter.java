@@ -70,9 +70,11 @@ public class SimulationPresenter implements MapChangeListener {
 
         for(Vector2d position: elements.keySet()){
             var element = map.objectAt(position);
-            var label = new Label(element.toString());
-            mapGrid.add(label,position.getX()-lowerX+1,position.getY()-lowerY+1);
-            GridPane.setHalignment(label, HPos.CENTER);
+            if(element.isPresent()) {
+                var label = new Label(element.get().toString());
+                mapGrid.add(label, position.getX() - lowerX + 1, position.getY() - lowerY + 1);
+                GridPane.setHalignment(label, HPos.CENTER);
+            }
         }
     }
 

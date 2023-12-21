@@ -141,9 +141,9 @@ public class RectangularMapTest {
         map.place(animal2);
 
         //Then
-        assertEquals(animal1, map.objectAt(pos1));
-        assertEquals(animal2, map.objectAt(pos2));
-        assertNull(map.objectAt(pos3));
+        assertEquals(animal1, map.objectAt(pos1).get());
+        assertEquals(animal2, map.objectAt(pos2).get());
+        assertFalse(map.objectAt(pos3).isPresent());
     }
 
     @Test
