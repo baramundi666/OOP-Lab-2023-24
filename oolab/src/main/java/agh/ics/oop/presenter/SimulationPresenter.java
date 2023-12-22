@@ -1,8 +1,6 @@
 package agh.ics.oop.presenter;
 
-import agh.ics.oop.OptionsParser;
-import agh.ics.oop.Simulation;
-import agh.ics.oop.SimulationEngine;
+import agh.ics.oop.*;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,6 +13,7 @@ import javafx.scene.layout.RowConstraints;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,8 +44,8 @@ public class SimulationPresenter implements MapChangeListener {
         int upperY = boundary.upperRight().getY();
         int rows = upperY-lowerY+1;
         int columns = upperX-lowerX+1;
-        double width = (double) 300/columns;
-        double height = (double) 300/rows;
+        double width = 40;
+        double height = 40;
         var elements = map.getElements();
 
         mapGrid.getColumnConstraints().add(new ColumnConstraints(width));
@@ -71,9 +70,10 @@ public class SimulationPresenter implements MapChangeListener {
         for(Vector2d position: elements.keySet()){
             var element = map.objectAt(position);
             if(element.isPresent()) {
-                var label = new Label(element.get().toString());
-                mapGrid.add(label, position.getX() - lowerX + 1, position.getY() - lowerY + 1);
-                GridPane.setHalignment(label, HPos.CENTER);
+                var elementBox = new WorldElementBox(element.get());
+                var image = elementBox.getVBox();
+                mapGrid.add(image, position.getX() - lowerX + 1, position.getY() - lowerY + 1);
+                GridPane.setHalignment(image, HPos.CENTER);
             }
         }
     }
@@ -95,6 +95,7 @@ public class SimulationPresenter implements MapChangeListener {
                 new Vector2d(2, 2));
         var map = new GrassField(10);
         setWorldMap(map);
+        map.registerObserver(new FileMapDisplay());
         map.registerObserver(this);
         map.registerObserver((worldMap, message) -> {
             var dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
