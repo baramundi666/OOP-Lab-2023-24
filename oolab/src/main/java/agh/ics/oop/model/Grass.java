@@ -25,6 +25,11 @@ public class Grass implements WorldElement{
     }
 
     @Override
+    public String getImage() {
+        return "grass.png";
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof Grass))

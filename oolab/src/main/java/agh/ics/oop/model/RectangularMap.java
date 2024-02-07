@@ -3,6 +3,7 @@ package agh.ics.oop.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class RectangularMap extends AbstractWorldMap {
 
@@ -32,8 +33,8 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        if (!animals.containsKey(position)) return null;
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        if (!animals.containsKey(position)) return Optional.empty();
+        return Optional.of(animals.get(position));
     }
 }

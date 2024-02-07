@@ -1,8 +1,6 @@
 package agh.ics.oop.presenter;
 
-import agh.ics.oop.OptionsParser;
-import agh.ics.oop.Simulation;
-import agh.ics.oop.SimulationEngine;
+import agh.ics.oop.*;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,6 +11,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class SimulationPresenter implements MapChangeListener {
         int upperY = boundary.upperRight().getY();
         int rows = upperY-lowerY+1;
         int columns = upperX-lowerX+1;
-        double width = (double) 300/columns;
-        double height = (double) 300/rows;
+        double width = 40;
+        double height = 40;
         var elements = map.getElements();
 
         mapGrid.getColumnConstraints().add(new ColumnConstraints(width));
@@ -68,9 +69,12 @@ public class SimulationPresenter implements MapChangeListener {
 
         for(Vector2d position: elements.keySet()){
             var element = map.objectAt(position);
-            var label = new Label(element.toString());
-            mapGrid.add(label,position.getX()-lowerX+1,position.getY()-lowerY+1);
-            GridPane.setHalignment(label, HPos.CENTER);
+            if(element.isPresent()) {
+                var elementBox = new WorldElementBox(element.get());
+                var image = elementBox.getVBox();
+                mapGrid.add(image, position.getX() - lowerX + 1, position.getY() - lowerY + 1);
+                GridPane.setHalignment(image, HPos.CENTER);
+            }
         }
     }
 
@@ -89,10 +93,16 @@ public class SimulationPresenter implements MapChangeListener {
         System.out.println(directions);
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4),
                 new Vector2d(2, 2));
-        var map1 = new GrassField(10);
-        setWorldMap(map1);
-        map1.registerObserver(this);
-        var simulation1 = new Simulation(directions, positions, map1);
+        var map = new GrassField(10);
+        setWorldMap(map);
+        map.registerObserver(new FileMapDisplay());
+        map.registerObserver(this);
+        map.registerObserver((worldMap, message) -> {
+            var dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+            var now = LocalDateTime.now();
+            System.out.println(dtf.format(now) + message);
+        });
+        var simulation1 = new Simulation(directions, positions, map);
         simulationList.add(simulation1);
         SimulationEngine engine = new SimulationEngine(simulationList);
         Thread engineThread = new Thread(engine);

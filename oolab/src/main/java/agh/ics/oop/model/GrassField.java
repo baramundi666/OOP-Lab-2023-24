@@ -1,8 +1,8 @@
 package agh.ics.oop.model;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap {
 
@@ -23,18 +23,20 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        if (!animals.containsKey(position) && !grass.containsKey(position)) return null;
-        if (animals.containsKey(position)) return animals.get(position);
-        return grass.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        if (!animals.containsKey(position) && !grass.containsKey(position)) return Optional.empty();
+        if (animals.containsKey(position)) return Optional.of(animals.get(position));
+        return Optional.of(grass.get(position));
     }
 
     @Override
     public Map<Vector2d, WorldElement> getElements() {
-        Map<Vector2d,WorldElement> list = new HashMap<>();
-        list.putAll(grass);
-        list.putAll(animals);
-        return list;
+        return Stream.concat(animals.entrySet().stream(), grass.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (animal, grass) -> animal
+                ));
     }
 
     @Override
